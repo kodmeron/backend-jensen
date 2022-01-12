@@ -10,12 +10,12 @@ app.get("/", (req, res)=>{
 
     const [name, password] = Buffer.from(encodedAuth, 'base64')
     .toString().split(':')
-
-    console.log(`Name ${name}`)
-    console.log(`Password ${password}`)
-
-    res.set('WWW-Authenticate', 'Basic realm="Access to Index"')
-    res.status(401).send("Unauthorized access")
+    if(user===credentials.secretUser && password===credentials.secretPassword){
+        res.status(200).send({"STATUS":"SUCCESS"})
+    }else{
+        res.set('WWW-Authenticate', 'Basic realm="Access to Index"')
+        res.status(401).send("Unauthorized access")
+    }
 })
 
 app.listen(3000 , ()=>{
