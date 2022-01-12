@@ -2,7 +2,8 @@ const express = require("express")
 const app = express()
 
 app.get("/", (req, res)=>{
-    res.status(200).send({"STATUS":"SUCCESS"})
+    res.set('WWW-Authenticate', 'Basic realm="Access to Index"')
+    res.status(401).send("Unauthorized access")
 })
 
 app.listen(3000 , ()=>{
