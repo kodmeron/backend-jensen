@@ -6,7 +6,7 @@ const app = express()
 const bodyParser = require("body-parser")
 const jwt = require("jsonwebtoken") 
 
-const app = express();
+
 const PORT = process.env.PORT || 3000
 
 app.use(function (req, res, next) {
