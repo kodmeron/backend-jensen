@@ -1,4 +1,4 @@
-const credentials = {secretUser:"user" , secretPassword:"password"}
+const credentials = { secretUser: "user", secretPassword: "password" }
 
 const cors = require("cors")
 const express = require("express")
@@ -18,15 +18,15 @@ app.use('/healthcheck', require('./routes/healthcheck.routes'));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
-app.get("/", (req ,res)=>{
-   headers={"http_status":200, "cache-control":  "no-cache"}
-   body={"status": "available"}
+app.get("/", (req, res) => {
+   headers = { "http_status": 200, "cache-control": "no-cache" }
+   body = { "status": "available" }
    res.status(200).send(body)
 })
 
-app.get("/health", (req ,res)=>{
-   headers={"http_status":200, "cache-control":  "no-cache"}
-   body={"status": "available"}
+app.get("/health", (req, res) => {
+   headers = { "http_status": 200, "cache-control": "no-cache" }
+   body = { "status": "available" }
    res.status(200).send(body)
 })
 
@@ -38,20 +38,20 @@ app.post('/authorize', (req, res) => {
    console.log(`User ${user}`)
    console.log(`Password ${password}`)
 
-   if(user===credentials.secretUser && password===credentials.secretPassword){
+   if (user === credentials.secretUser && password === credentials.secretPassword) {
       console.log("Authorized")
       const token = jwt.sign({
-            data: 'foobar'
-      }, 'your-secret-key-here', { expiresIn: 60 * 60 }); 
+         data: 'foobar'
+      }, 'your-secret-key-here', { expiresIn: 60 * 60 });
 
       console.log(token)
       res.status(200).send(token)
-  }else{
+   } else {
       console.log("Not authorized")
-      res.status(200).send({"STATUS":"FAILURE"})
+      res.status(200).send({ "STATUS": "FAILURE" })
    }
 });
 
-app.listen(PORT , ()=>{
-     console.log(`STARTED LISTENING ON PORT ${PORT}`)
+app.listen(PORT, () => {
+   console.log(`STARTED LISTENING ON PORT ${PORT}`)
 });
