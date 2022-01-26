@@ -1,12 +1,22 @@
 const credentials = { secretUser: "user", secretPassword: "password" }
 
-const cors = require("cors")
+const cors = require('cors')
 const express = require("express")
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken');
 
+const fs = require("fs");
+
 const app = express()
 const PORT = process.env.PORT || 3000
+
+var https = require('https');
+var http = require('http')
+
+var options = {
+   key: fs.readFileSync('camerons-key.pem'),
+   cert: fs.readFileSync('camerons-cert.pem')
+};
 
 app.use(function (req, res, next) {
    res.setHeader('Content-Security-Policy', "default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'");
@@ -52,6 +62,14 @@ app.post('/authorize', (req, res) => {
    }
 });
 
-app.listen(PORT, () => {
-   console.log(`STARTED LISTENING ON PORT ${PORT}`)
-});
+// app.listen(PORT, () => {
+//    console.log(`STARTED LISTENING ON PORT ${PORT}`)
+// });
+
+http.createServer(app).listen(8080, function(){
+   console.log('HTTP listening on 8080')
+})
+
+http.createServer(options, app).listen(PORT, function(){
+   console.log('HTTPS listening on 3000');
+})
